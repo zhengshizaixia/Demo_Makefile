@@ -1,0 +1,9 @@
+{
+    "search.exclude": {
+        //搜索注释
+    },
+    "files.exclude": {
+        //显示注释
+        "*.docx":true,
+    }
+}
