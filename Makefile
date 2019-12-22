@@ -1,5 +1,6 @@
 #此行为注释行
 #测试变量定义
+include ./src/Makefile
 Readme = 用户指引
 help:
 	@echo $(Readme)
@@ -43,6 +44,10 @@ test9:
 	-echo "前缀-"
 	-cat this_file_not_exist
 	-echo "错误之后的命令"
+test10:
+	@echo "主makefile begin"
+	@make src-test1
+	@echo "主makefile end"
 #伪目标
 .PHONY: clean   <-- 这句没有也行, 但是最好加上
 clean:
