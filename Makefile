@@ -48,7 +48,64 @@ test10:
 	@echo "主makefile begin"
 	@make src-test1
 	@echo "主makefile end"
+export VALUE := a.c b.c c.c
+#export
+test11:
+	@echo "主makefile begin"
+	@make src-test1
+	@echo "主makefile end"
+#定义命令包
+define run-hello-makefile
+@echo -n "Hello"
+@echo " Makefile!"
+@echo "这里可以执行多条 Shell 命令!"
+endef
+test12:
+	$(run-hello-makefile)
+#判断语句
+test13:
+ifeq ("aa", "bb")
+	@echo "equal"
+else
+	@echo "not equal"
+endif
+#字符串替换函数
+str1 := string
+str2 := $(subst s,S,$(str1))
+test14:
+	@echo $(str2)
+#字符串过滤函数
+test15:
+	@echo $(filter %.o %.a,a.c b.o c.a)
+#排序函数
+test16:
+	@echo $(sort bac abc acb cab)
+#foreach函数
+targets := a b c d
+objects := $(foreach i,$(targets),$(i).o)
+test17:
+	@echo $(targets)
+	@echo $(objects)
+#origin函数
+val-in-file := test-file
+override val-override := test-override
+test18:
+	@echo $(origin not-define)    # not-define 没有定义
+	@echo $(origin CC)            # CC 是Makefile默认定义的变量
+	@echo $(origin PATH)         # PATH 是 bash 环境变量
+	@echo $(origin val-in-file)    # 此Makefile中定义的变量
+	@echo $(origin val-in-cmd)    # 这个变量会加在 make 的参数中
+	@echo $(origin val-override) # 此Makefile中定义的override变量
+	@echo $(origin @)             # 自动变量, 具体前面的介绍
+#error函数
+error:
+	$(error there is an error!)
+	@echo "这里不会执行!"
+#warning函数
+warning:
+	$(warning there is an warning!)
+	@echo "这里会执行!"
 #伪目标
-.PHONY: clean   <-- 这句没有也行, 但是最好加上
+.PHONY: clean
 clean:
 	-rm -f *.o
